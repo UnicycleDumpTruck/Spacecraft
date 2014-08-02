@@ -106,8 +106,8 @@ while True:
             if (joystick.get_button(9) == 1):
                 zeroAxes()
             if (joystick.get_button(10) == 1):
-                subprocess.call("mpg123 /home/pi/Alarm/aborted.mp3", shell=True)
-                subprocess.call(['shutdown -h now "System halted by GPIO action"'], shell=True)
+                subprocess.call(['mpg123 /home/pi/space/aborted.mp3'], shell=True)
+                subprocess.call(['shutdown -h now "System halted by joystick button"'], shell=True)
             buttons = joystick.get_numbuttons()
             for i in range( 8 ):
                button = joystick.get_button( buttonnumbers[i] )
