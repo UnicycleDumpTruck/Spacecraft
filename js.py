@@ -91,7 +91,7 @@ def zeroAxes():
         axeszero[i] = axis
     
 mainEngineOn = False
-    
+
 # -------- Main Program Loop -----------
 while True:
     # EVENT PROCESSING STEP
@@ -119,7 +119,7 @@ while True:
         if event.type == pygame.JOYAXISMOTION:
             for i in range( 3 ):
                 axis = joystick.get_axis( i )
-                if (0.06 < abs(axis - axeszero[i])):
+                if abs(axis - axeszero[i]) > 0.06:
                     if (axeschannels[i].get_busy() == False):
                         axeschannels[i].play(axessounds[i])
                     axeschannels[i].set_volume((abs(axis - axeszero[i]) * 2.5 ) + 0.0)
@@ -134,7 +134,7 @@ while True:
                             #topValue = 9
                             bottomValue = 0
                             #print topValue
-                    if i == 1:
+                    elif i == 1:
                         if (axis > axeszero[i]):
                             leftValue = 0
                             rightValue = (abs(axis - axeszero[i]) * 26.1)
@@ -148,17 +148,17 @@ while True:
                     if i == 0:
                         topValue = 0
                         bottomValue = 0
-                    if i == 1:
+                    elif i == 1:
                         leftValue = 0
                         rightValue = 0
             i=3
             axis = joystick.get_axis( i )
             #serialFromArduino.write(b'(abs(axis - axesstate[i]) * 9),0,0,0,0\n')
-            if (0.03 < abs(axis - axeszero[i])):
+            if abs(axis - axeszero[i]) > 0.03:
                 mainValue = (abs(axis - axeszero[i]) * 7)
 #                    commandString = "{},{},{},{},{}\n".format(mainValue,0,0,0,0)
 #                    serialFromArduino.write((commandString))
-                    
+
                 mainEngineOn = True
                 if (axeschannels[i].get_busy() == False):
                     axeschannels[i].play(axessounds[i])
@@ -180,16 +180,16 @@ while True:
             #print commandString
             if commandString != lastCommand:
                 print (time.time() - timeLastCommand)
-                if (0.05 < (time.time() - timeLastCommand)):
+                if time.time() - timeLastCommand > 0.05:
                     serialFromArduino.write((commandString))
                     timeLastCommand = time.time()
-                #time.sleep(0.05)
+                            #time.sleep(0.05)
             lastCommand = commandString
-            
+
     # Limit to 50 frames per second
     clock.tick(30)
     #time.sleep(1)
-    
+
 # Close the window and quit.
 # If you forget this line, the program will 'hang'
 # on exit if running from IDLE.
